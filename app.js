@@ -7,7 +7,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.set('view engine','ejs');
 
-// Still working on this
 app.get('/', (req,res) => {
     console.log("Home Page - Server Side");
     res.render('home');

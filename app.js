@@ -4,54 +4,43 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: false }));
+app.set('view engine', 'ejs');
 
-app.set('view engine','ejs');
+function buckleConverter(number) {
+    switch (number) {
+        case 1:
+        case 2:
+            return "1, 2, Buckle my shoe.";
+        case 3:
+        case 4:
+            return "3, 4, Shut the door.";
+        case 5:
+        case 6:
+            return "5, 6, Pick up sticks.";
+        case 7:
+        case 8:
+            return "7, 8, Lay them straight.";
+        case 9:
+        case 10:
+            return "9, 10, A big fat hen!";
+        default:
+            return "Please enter a number between 1 and 10.";
+    }
+}
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     console.log("Home Page - Server Side");
-    res.render('home');
-});
-
-app.get('/', (req,res) => {
-    console.log(req.body);
-
-    let details = req.body;
-    res,render('confirm', {details: details});
+    res.render('home', { message: null });
 });
 
 app.post('/', (req, res) => {
-    if (req.body.number) {
-        let number = req.body.number;
-        res.render('home', { message: `You entered ${number}`});
-        switch(number) {
-            case 1:
-            case 2:
-                res.render('home', { message: `1, 2, Buckle my shoe.`});
-                break;
-            case 3:
-            case 4:
-                res.render('home', { message: `3, 4, Shut the door.`});
-                break;
-            case 5:
-            case 6:
-                res.render('home', { message: `5, 6, pick up sticks.`});
-                break;
-            case 7:
-            case 8:
-                res.render('home', { message: `7, 8, Lay them strait.`});
-                break;
-            case 9:
-            case 10:
-                res.render('home', { message: `9, 10, A big fat hen!`});
-                break;
-            default:
-                res.render('home', { message: `Please enter a number between 1 and 10.`});
-                break;
+    const number = parseInt(req.body.number);
+    const message = buckleConverter(number);
 
-        }
-    }
+    res.render('home', { message });
 });
 
+
 app.listen(PORT, () => {
-    console.log(`Server running on port http://localhost:${3000}`)
+    console.log(`Server running on port http://localhost:${PORT}`);
 });
